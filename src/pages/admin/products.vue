@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-   {{product.name}}
+   Products
   </div>
 </template>
 
@@ -14,8 +14,11 @@ export default {
   },
   computed: {
     product(){
-      return this.$store.state.products[0]
+      return this.$store.getters.allProducts[0]
     }
+  },
+  mounted (){
+    console.log("products")
   }
 }
 </script>
