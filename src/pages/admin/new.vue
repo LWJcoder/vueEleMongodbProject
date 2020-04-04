@@ -15,19 +15,22 @@ export default {
   data () {
     return {
     	model: {},
-      	manufacturers: [{
-      		_id: 'sam',
-      		name:'Samsung'
-      	},
-      	{
-      		_id: 'apple',
-      		name:'Apple'
-      	}]
     }
+  },
+   computed: {
+    // a computed getter
+    manufacturers() {
+      return this.$store.state.manufacturers;
+    }
+  },
+  created () {
+    this.$store.dispatch('allManufacturers');
+    // this.manufacturers = this.$store.state.manufacturers;
   },
   methods: {
   	addProduct(model){
-  		console.log(model)
+  		// console.log(model)
+      this.$store.dispatch('addProduct', model);
   	}
   },
   components: {

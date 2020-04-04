@@ -13,9 +13,8 @@ export default new Vuex.Store({
 		cart: [],
 		showLoader: false,
 		product: {},
-		products: [ ]
-	      ,
-      manufacturers: []
+		products: [ ],
+     	manufacturers: []
 	},
 	mutations: {
 		ADD_TO_CART(state, payload){
@@ -35,7 +34,7 @@ export default new Vuex.Store({
 			state.showLoader =false;
 			state.products = products;
 		},
-		PRODUCT_BY_ID (state){
+		SHOW_LOAD (state){
 			state.showLoader = true;
 		},
 		PRODUCT_BY_ID_SUCCESS (state, payload) {
@@ -43,6 +42,23 @@ export default new Vuex.Store({
 
 			const {product } = payload;
 			state.product = product;
+		},
+		ADD_PRODUCT_SUCCESS (state, payload){
+			state.showLoader = false;
+
+
+		},
+		ALL_MANUFACTURERS_SUCCESS (state, payload){
+			const {manufacturers} = payload;
+
+			state.showLoader = false;
+			state.manufacturers = manufacturers;
+		},
+		REMOVE_MANUFACTURERS_SUCCESS (state, payload){
+			const { manufacturerId } = payload;
+
+			state.showLoader = false;
+			state.manufacturers = state.manufacturers.filter(manufacturer => manufacturer._id !== manufacturerId);
 		}
 	},
 	getters: {
@@ -55,6 +71,12 @@ export default new Vuex.Store({
 			}else{
 				return state.product;
 			}
+		},
+		allManufacturers(state){
+			return state.manufacturers;
+		},
+		allManufacturers(state){
+			return state.manufacturers;
 		}
 	},
 	actions: {
@@ -67,7 +89,7 @@ export default new Vuex.Store({
 			})
 		},
 		productById({commit}, payload ){
-			commit('PRODUCT_BY_ID');
+			commit('SHOW_LOAD');
 
 			const {productId} = payload;
 			axios.get(`${API}/products/${productId}`).then(response => {
@@ -76,6 +98,41 @@ export default new Vuex.Store({
 				})
 			})
 
+		},
+		addProduct ({commit}, payload){
+			commit('SHOW_LOAD');
+
+			const product = payload;
+			console.log('product', product)
+			 axios.post(`${API}/products`, product).then(function(res){
+		        // alert(JSON.stringify(res));
+		        commit('ADD_PRODUCT_SUCCESS')
+		    }).catch(function (error) {
+		    console.log(error);
+		  });
+
+
+		},
+		allManufacturers ({commit}, payload){
+			commit('SHOW_LOAD');
+
+			axios.get(`${API}/manufacturers`).then(response => {
+				console.log(response);
+				commit('ALL_MANUFACTURERS_SUCCESS', {
+					manufacturers: response.data,
+				})
+			})
+		},
+		removeManufacturer ({commit}, payload){
+			commit('SHOW_LOAD');
+
+			var {manufacturerId} = payload;
+
+			axios.delete(`${API}/manufacturers/${manufacturerId}`).then(() => {
+				commit('REMOVE_MANUFACTURERS_SUCCESS', {
+					manufacturerId
+				})
+			})
 		}
 	}
 	

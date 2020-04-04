@@ -21,7 +21,7 @@
 				<label for="">Manufacturer</label>
 				<select 
 					placeholder="Manufacturer" 
-					v-model="model.Manufacturer"
+					v-model="model.manufacturer"
 					name="manufacturer"
 					class="form-control">
 			 		<template v-for="manufacturer in manufacturers">

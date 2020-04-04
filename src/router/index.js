@@ -11,6 +11,8 @@ import New from '@/pages/admin/New';
 import Products from '@/pages/admin/Products';
 import Edit from '@/pages/admin/Edit';
 
+import Manufacturer from '@/pages/admin/manufacturers';
+
 Vue.use(Router)
 
 export default new Router({
@@ -52,6 +54,11 @@ export default new Router({
       path: '/detail/:id',
       name: 'Detail',
       component: ProductDetail
+    },
+    {
+      path: '/admin/manufacturers',
+      name: 'manufacturer',
+      component: Manufacturer
     }
   ]
 })
