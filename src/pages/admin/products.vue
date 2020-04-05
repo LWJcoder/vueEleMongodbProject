@@ -41,9 +41,9 @@ table {
 export default {
   name: 'Products',
   created (){
-    if (this.products.length ==0) {
+    // if (this.products.length ==0) {
       this.$store.dispatch('allProducts');
-    }
+    // }
   },
   data () {
     return {

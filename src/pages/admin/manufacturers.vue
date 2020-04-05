@@ -42,10 +42,10 @@ table {
 import manufacturerList from '@/components/manufacturers/manufacturers.vue';
 export default {
 	created (){
-		if (this.manufacturers.length == 0) {
+		// if (this.manufacturers.length == 0) {
 			this.$store.dispatch('allManufacturers');
 
-		}
+		// }
 	},
 	components: {
 		'manufacturer-list': manufacturerList

@@ -1,11 +1,15 @@
 <template>
-	<product-form
-	@save-product="addProduct"
-	:model="model"
-	:manufacturers="manufacturers">
+  <div>
+    新增产品
+      <product-form
+  @save-product="addProduct"
+  :model="model"
+  :manufacturers="manufacturers">
 
 
-	</product-form>
+  </product-form>
+  </div>
+
 </template>
 
 <script>
@@ -14,23 +18,28 @@ export default {
   name: 'New',
   data () {
     return {
-    	model: {},
-    }
-  },
-   computed: {
-    // a computed getter
-    manufacturers() {
-      return this.$store.state.manufacturers;
     }
   },
   created () {
     this.$store.dispatch('allManufacturers');
     // this.manufacturers = this.$store.state.manufacturers;
   },
+   computed: {
+    // a computed getter
+    manufacturers() {
+      return this.$store.state.manufacturers;
+    },
+    model(){
+      return {}
+    }
+  },
+  
   methods: {
   	addProduct(model){
   		// console.log(model)
-      this.$store.dispatch('addProduct', model);
+      this.$store.dispatch('addProduct', {
+        product: model
+      });
   	}
   },
   components: {

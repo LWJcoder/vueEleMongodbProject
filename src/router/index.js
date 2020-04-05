@@ -12,6 +12,8 @@ import Products from '@/pages/admin/Products';
 import Edit from '@/pages/admin/Edit';
 
 import Manufacturer from '@/pages/admin/manufacturers';
+import EditManufacturers from '@/pages/admin/editManufacturers';
+import NewManufacturers from '@/pages/admin/NewManufacturers';
 
 Vue.use(Router)
 
@@ -27,23 +29,41 @@ export default new Router({
       name: 'Admin',
       component: Index,
       children: [
-      {
-      	path: 'new',
-      	name: 'New',
-      	component: New
-      },
-      {
-      	path: '/product',
-      	name: 'Products',
-      	component: Products
-      },
-      {
-      	path: 'edit/:id',
-      	name: 'Edit',
-      	component: Edit
-      }
+        {
+        	path: 'new',
+        	name: 'New',
+        	component: New
+        },
+        {
+        	path: '',
+        	name: 'Products',
+        	component: Products,
+          
+        },
+        {
+          path: 'edit/:id',
+          name: 'Edit',
+          component: Edit,
+        },
 
-      ]
+        {
+          path: 'manufacturers',
+          name: 'manufacturer',
+          component: Manufacturer,
+          
+        },
+        {
+          path: 'manufacturers/new',
+          name: 'NewManufacturers',
+          component: NewManufacturers,
+        },
+        {
+          path: 'manufacturers/edit/:id',
+          name: 'EditManufacturers',
+          component: EditManufacturers,
+        },
+
+    ]
     },
      {
       path: '/Cart',
@@ -54,11 +74,6 @@ export default new Router({
       path: '/detail/:id',
       name: 'Detail',
       component: ProductDetail
-    },
-    {
-      path: '/admin/manufacturers',
-      name: 'manufacturer',
-      component: Manufacturer
     }
   ]
 })
