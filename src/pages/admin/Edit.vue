@@ -25,9 +25,9 @@ export default {
       })
     }
 
-    // if (this.manufacturers.length == 0) {
+    if (this.manufacturers.length == 0) {
       this.$store.dispatch('allManufacturers')
-    // }
+    }
   },
   computed: {
     manufacturers (){

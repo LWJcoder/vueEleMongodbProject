@@ -1,24 +1,16 @@
 <template>
-  <form @submit.prevent="saveManufacturer">
-    <div class="form-group">
-      <label>Name</label>
-      <input
-        type="text"
-        placeholder="Name"
-        v-model="model.name"
-        name="name"
-        class="form-control" />
-    </div>
+  <div class="manufacturerInfo">
+    <el-form class="form" ref="form" :model="model" label-width="180px">
+      <el-form-item label="Name">
+        <el-input v-model="model.name"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button v-if="isEditing" type="primary" @click="onSubmit">更新生产商</el-button>
+        <el-button v-else @click="onSubmit">添加生产商</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 
-    <div class="form-group new-button">
-      <button class="button">
-        <i class="fa fa-pencil"></i>
-        <!-- Conditional rendering for input text -->
-        <span v-if="isEditing">更新生产商</span>
-        <span v-else>新增生产商</span>
-      </button>
-    </div>
-  </form>
 </template>
 
 <script>

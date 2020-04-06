@@ -1,131 +1,134 @@
 // actins
 import axios from 'axios';
-const API = 'http://localhost:3000/api/v1';
+
+import {
+  ADD_PRODUCT,
+  ADD_PRODUCT_SUCCESS,
+  PRODUCT_BY_ID,
+  PRODUCT_BY_ID_SUCCESS,
+  UPDATE_PRODUCT,
+  UPDATE_PRODUCT_SUCCESS,
+  REMOVE_PRODUCT,
+  REMOVE_PRODUCT_SUCCESS,
+  ALL_PRODUCTS,
+  ALL_PRODUCTS_SUCCESS,
+  ALL_MANUFACTURERS,
+  ALL_MANUFACTURERS_SUCCESS,
+  MANUFACTURER_BY_ID,
+  MANUFACTURER_BY_ID_SUCCESS,
+  ADD_MANUFACTURER,
+  ADD_MANUFACTURER_SUCCESS,
+  UPDATE_MANUFACTURER,
+  UPDATE_MANUFACTURER_SUCCESS,
+  REMOVE_MANUFACTURER,
+  REMOVE_MANUFACTURER_SUCCESS,
+} from './mutation-types';
+
+const API_BASE = 'http://localhost:3000/api/v1';
 
 export const productActions = {
-	allProducts({commit }){
-		axios.get(`${API}/products`).then(response => {
-			console.log(response);
-			commit('ALL_PRODUCTS_SUCCESS', {
-				products: response.data,
-			})
-		})
-	},
-	productById({commit}, payload ){
-		commit('SHOW_LOAD');
+  allProducts({ commit }) {
+    commit(ALL_PRODUCTS)
 
-		const {productId} = payload;
-		axios.get(`${API}/products/${productId}`).then(response => {
-			commit('PRODUCT_BY_ID_SUCCESS', {
-				product: response.data
-			})
-		})
+    axios.get(`${API_BASE}/products`).then(response => {
+      commit(ALL_PRODUCTS_SUCCESS, {
+        products: response.data,
+      });
+    })
+  },
+  productById({ commit }, payload) {
+    commit(PRODUCT_BY_ID);
 
-	},
-	addProduct ({commit}, payload){
-		commit('SHOW_LOAD');
+    const { productId } = payload;
+    axios.get(`${API_BASE}/products/${productId}`).then(response => {
+      commit(PRODUCT_BY_ID_SUCCESS, {
+        product: response.data,
+      });
+    })
+  },
+  removeProduct({ commit }, payload) {
+    commit(REMOVE_PRODUCT);
 
-		const product = payload;
-		// console.log('product', product)
-		 axios.post(`${API}/products`, product).then(function(response){
-	        // alert(JSON.stringify(res));
-	        commit('ADD_PRODUCT_SUCCESS', {
-	        	product: response.data
-	        })
-	        console.log('product', response)
-	        alert(' 恭喜你，商品添加成功！')
-	    }).catch(function (error) {
-	    console.log(error);
-	    alert('不好意思，商品添加失败！')
-	  });
+    const { productId } = payload;
+    axios.delete(`${API_BASE}/products/${productId}`).then(() => {
+      // 返回 productId，用于删除本地对应的商品
+      commit(REMOVE_PRODUCT_SUCCESS, {
+        productId,
+      });
+    })
+  },
+  updateProduct({ commit }, payload) {
+    commit(UPDATE_PRODUCT);
 
+    const { product } = payload;
+    axios.put(`${API_BASE}/products/${product._id}`, product).then(() => {
+      commit(UPDATE_PRODUCT_SUCCESS, {
+        product,
+      });
+    })
+  },
+  addProduct({ commit }, payload) {
+    commit(ADD_PRODUCT);
 
-	},
-	removeProduct ({commit}, payload){
-		commit('SHOW_LOAD');
-
-		const {productId} = payload;
-
-		axios.delete(`${API}/product/${productId}`).then(res => {
-			commit('REMOVE_PRODUCT_SUCCESS', {
-				productId
-			})
-		})
-	},
-	updateProduct({commit}, payload){
-		commit('SHOW_LOAD');
-
-		const {product }= payload;
-
-		axios.put(`${API}/products/${product._id}`, product).then(()=> {
-			commit('UPDATE_PRODUCT_SUCCESS', {
-				product
-			})
-		})
-	}
-		
+    const { product } = payload;
+    axios.post(`${API_BASE}/products`, product).then(response => {
+      commit(ADD_PRODUCT_SUCCESS, {
+        product: response.data,
+      })
+    })
+}
 }
 
+
 export const manufacturerActions = {
-	allManufacturers ({commit}, payload){
-		commit('SHOW_LOAD');
+  allManufacturers({ commit }) {
+    commit(ALL_MANUFACTURERS);
 
-		axios.get(`${API}/manufacturers`).then(response => {
-			console.log(response);
-			commit('ALL_MANUFACTURERS_SUCCESS', {
-				manufacturers: response.data,
-			})
-		})
-	},
-	removeManufacturer ({commit}, payload){
-		commit('SHOW_LOAD');
+    axios.get(`${API_BASE}/manufacturers`).then(response => {
+      commit(ALL_MANUFACTURERS_SUCCESS, {
+        manufacturers: response.data,
+      });
+    })
+  },
+  manufacturerById({ commit }, payload) {
+    commit(MANUFACTURER_BY_ID);
 
-		var {manufacturerId} = payload;
+    const { manufacturerId } = payload;
+    axios.get(`${API_BASE}/manufacturers/${manufacturerId}`).then(response => {
+      commit(MANUFACTURER_BY_ID_SUCCESS, {
+        manufacturer: response.data,
+      });
+    })
+  },
+  removeManufacturer({ commit }, payload) {
+    commit(REMOVE_MANUFACTURER);
 
-		axios.delete(`${API}/manufacturers/${manufacturerId}`).then(() => {
-			commit('REMOVE_MANUFACTURER_SUCCESS', {
-				manufacturerId
-			})
-		})
-	},
-	addManufacturer ({commit}, payload){
-		commit('SHOW_LOAD');
+    const { manufacturerId } = payload;
+    axios.delete(`${API_BASE}/manufacturers/${manufacturerId}`).then(() => {
+      // 返回 manufacturerId，用于删除本地对应的制造商
+      commit(REMOVE_MANUFACTURER_SUCCESS, {
+        manufacturerId,
+      });
+    })
+  },
+  updateManufacturer({ commit }, payload) {
+    commit(UPDATE_MANUFACTURER);
 
+    const { manufacturer } = payload;
+    axios.put(`${API_BASE}/manufacturers/${manufacturer._id}`, manufacturer).then(() => {
+      commit(UPDATE_MANUFACTURER_SUCCESS, {
+        manufacturer,
+      });
+    })
+  },
+  addManufacturer({ commit }, payload) {
+    commit(ADD_MANUFACTURER);
 
-		const {manufacturer} =  payload;
-
-		axios.post(`${API}/manufacturers`, manufacturer).then((response) =>{
-			commit('ADD_MANUFACTURER_SUCCESS',{
-				manufacturer: response.data
-			})
-			alert('恭喜你，制造商添加成功！')
-		}).catch(err=>{
-			console.error(err)
-			alert('制造商添加失败！')
-
-		})
-	},
-	manufacturerById({commit} , payload){
-		commit('SHOW_LOAD');
-
-		const {manufacturerId} =  payload;
-		axios.get(`${API}/manufacturers/${manufacturerId}`).then(res =>{
-			commit('MANUFACTURER_BY_ID_SUCCESS', {
-				manufacturer: res.data
-			})
-		})
-	},
-	updateManufacturer({commit}, payload){
-		commit('SHOW_LOAD');
-
-		const {manufacturer} = payload;
-		axios.put(`${API}/manufacturers/${manufacturer._id}`, manufacturer).then(res =>{
-			commit('UPDATE_MANUFACTURER_SUCCESS', {
-				manufacturer: res.data
-			})
-			alert('恭喜你，制造商更新成功！')
-		}).catch(()=>{
-			alert('不好意思，制造商更新失败！')
-		})
-	}
+    const { manufacturer } = payload;
+    axios.post(`${API_BASE}/manufacturers`, manufacturer).then(response => {
+      commit(ADD_MANUFACTURER_SUCCESS, {
+        manufacturer: response.data,
+      })
+    })
+  }
 }
