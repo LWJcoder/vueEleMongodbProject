@@ -1,5 +1,6 @@
 // actins
 import axios from 'axios';
+import { Message } from 'element-ui';
 
 import {
   ADD_PRODUCT,
@@ -55,7 +56,14 @@ export const productActions = {
       commit(REMOVE_PRODUCT_SUCCESS, {
         productId,
       });
+       Message({
+        message: '恭喜你，商品删除成功！',
+        type: 'success'
+      })
+    }).catch(()=>{
+       Message.error('不好意思，商品删除失败！');
     })
+    
   },
   updateProduct({ commit }, payload) {
     commit(UPDATE_PRODUCT);
@@ -65,6 +73,12 @@ export const productActions = {
       commit(UPDATE_PRODUCT_SUCCESS, {
         product,
       });
+         Message({
+        message: '恭喜你，商品更新成功！',
+        type: 'success'
+      })
+    }).catch(()=>{
+       Message.error('不好意思，商品更新失败！');
     })
   },
   addProduct({ commit }, payload) {
@@ -74,7 +88,13 @@ export const productActions = {
     axios.post(`${API_BASE}/products`, product).then(response => {
       commit(ADD_PRODUCT_SUCCESS, {
         product: response.data,
+      });
+       Message({
+        message: '恭喜你，商品添加成功！',
+        type: 'success'
       })
+    }).catch(()=>{
+       Message.error('不好意思，商品添加失败！');
     })
 }
 }
@@ -112,13 +132,19 @@ export const manufacturerActions = {
     })
   },
   updateManufacturer({ commit }, payload) {
-    commit(UPDATE_MANUFACTURER);
+    commit('SHOW_LOAD');
 
     const { manufacturer } = payload;
     axios.put(`${API_BASE}/manufacturers/${manufacturer._id}`, manufacturer).then(() => {
       commit(UPDATE_MANUFACTURER_SUCCESS, {
         manufacturer,
       });
+        Message({
+        message: '恭喜你，制造商删除成功！',
+        type: 'success'
+      })
+    }).catch(()=>{
+       Message.error('不好意思，制造商删除失败！');
     })
   },
   addManufacturer({ commit }, payload) {
@@ -128,7 +154,13 @@ export const manufacturerActions = {
     axios.post(`${API_BASE}/manufacturers`, manufacturer).then(response => {
       commit(ADD_MANUFACTURER_SUCCESS, {
         manufacturer: response.data,
+      });
+        Message({
+        message: '恭喜你，制造商添加成功！',
+        type: 'success'
       })
+    }).catch(()=>{
+       Message.error('不好意思，制造商添加失败！');
     })
   }
 }

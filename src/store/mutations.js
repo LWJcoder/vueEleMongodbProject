@@ -1,3 +1,5 @@
+import { Message } from 'element-ui';
+
 export const productMutations = {
   ALL_PRODUCTS(state) {
     state.showLoader = true;
@@ -59,15 +61,26 @@ export const productMutations = {
 export const cartMutations = {
   ADD_TO_CART(state, payload) {
     const { product } = payload;
-    state.cart.push(product)
+    state.cart.push(product);
+     Message({
+      message: '恭喜你，成功加入购物车！',
+      type: 'success'
+    })
   },
   REMOVE_FROM_CART(state, payload) {
     const { productId } = payload
     state.cart = state.cart.filter(product => product._id !== productId)
+     Message({
+      message: '恭喜你，成功移除购物车！',
+      type: 'success'
+    })
   },
 }
 
 export const manufacturerMutations = {
+  SHOW_LOAD(state) {
+    state.showLoader = true;
+  },
   ALL_MANUFACTURERS(state) {
     state.showLoader = true;
   },
@@ -95,8 +108,16 @@ export const manufacturerMutations = {
     state.manufacturers = state.manufacturers.concat(manufacturer)
 
   },
-  MANUFACTURER_BY_ID_SUCCESS (state, payload){
+  MANUFACTURER_BY_ID(state){
     state.showLoader = true;
+
+  },
+  MANUFACTURER_BY_ID_SUCCESS (state, payload){
+    state.showLoader = false;
+    const {manufacturer}  = payload;
+
+    state.manufacturer =  manufacturer;
+    console.log(manufacturer)
 
   },
   UPDATE_MANUFACTURER_SUCCESS (state, payload){
@@ -118,7 +139,3 @@ export const manufacturerMutations = {
   
 }
 
-
-// export const cartMutations = {
-  
-// }

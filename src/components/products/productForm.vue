@@ -39,7 +39,7 @@
           </el-form-item>
           <el-form-item>
           <el-button v-if="isEditing" type="primary" native-type="submit" @click="onSubmit"
-            >Update Product</el-button
+            >更新产品</el-button
           >
           <el-button v-else @click="onSubmit">Add Product</el-button>
       </el-form-item>

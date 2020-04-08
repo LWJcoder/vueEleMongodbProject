@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {productGetters, manufacturerGetters} from './getters';
-import {productMutations, manufacturerMutations} from './mutations';
+import {productMutations, manufacturerMutations, cartMutations} from './mutations';
 import { productActions, manufacturerActions } from './actions';
 
 
@@ -21,6 +21,7 @@ export default new Vuex.Store({
 	mutations: {
 		...productMutations,
 	    ...manufacturerMutations,
+	    ...cartMutations
 	},
 	getters: {
 		...productGetters,
